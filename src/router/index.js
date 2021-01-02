@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import PostStart from "@/components/Post/PostStart";
+import Posts from "@/components/Post/Posts";
+import PostDetails from "@/components/Post/PostDetails";
 
 Vue.use(VueRouter)
 
@@ -11,13 +14,15 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/posts',
+    component: PostStart,
+    children : [
+      { path : '', component : Posts, name: 'posts' },
+      { path: ':id', component: PostDetails, name : 'postsDetails' }
+    ]
+  },
+    // tanımlı olmayan bir URL girildiğinde home componentine yönlendirme
+  { path: "*", redirect : "/"}
 ]
 
 const router = new VueRouter({
